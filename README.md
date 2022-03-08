@@ -14,7 +14,7 @@ This contract can recieve donations from other addresses and storing whole list 
 >send certain amount of tokens from contract balance to provided address, this function can be called just by the owner of contract
 
 
-## HardHat Custom Tasks and Deploying command
+## HardHat Custom Tasks
 
 
 ```shell
@@ -24,7 +24,17 @@ npx hardhat donators
 npx hardhat total-amount --address 0x5FbDB2315678afecb367f032d93F642f64180aa3
 npx hardhat withdraw --address 0x5FbDB2315678afecb367f032d93F642f64180aa3 --amount 100
 ```
+
+## Other commands
+
+```shell
+node scripts/deploy.js --network rinkeby
+npx hardhat test
+npx hardhat coverage --testfiles "test/*.js"
+```
+
 ## Summary
+
 ```
 It was amazing experience to write and deploy my first smart contract
 At first I was developing in Remix IDE and tested all features manually there,and they worked.
