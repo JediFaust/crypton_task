@@ -1,7 +1,6 @@
 # Donation Smart Contract to Crypton
 
-This contract can recieve donations from other addresses and storing whole list of unique addresses and total sum of their donations/n
-After that owner of the contract, which is the address deploys exact contract, can withdraw certain amount of available tokens to any address
+This contract can recieve donations from other addresses and storing whole list of unique addresses and total sum of their donations. After that owner of the contract, which is the address deploys exact contract, can withdraw certain amount of available tokens to any address
 
 ## Functions
 
