@@ -9,8 +9,10 @@ donate(amount) make donation with certain amount
 getDonators() returns unique list of donator addresses
 getAmount(address) returns total amount of donations of exact address
 withdraw(address, amount) send certain amount of tokens from contract balance to provided address, this function can be called just by the owner of contract
-## HardHat Custom Tasks and Deploying command
 '''
+
+## HardHat Custom Tasks and Deploying command
+
 
 ```shell
 node scripts/deploy.js --network rinkeby
