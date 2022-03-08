@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GPL-3.0
+// SPDX-License-Identifier: MIT
 
 pragma solidity >=0.7.0 <0.9.0;
 
@@ -56,14 +56,9 @@ contract Contribute {
 
         addDonator(msg.sender, _amount); // Adding to donatorList
 
-        sendBack(payable(msg.sender), _amount);
     }
 
-    function sendBack(address payable _sender, uint _amount) private {
-        if (msg.value > _amount){
-         _sender.transfer(msg.value - _amount);
-        }
-    }
+
 
     function getDonators() public view returns(address[] memory) {
         return donatorAddresses;

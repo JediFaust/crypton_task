@@ -1,7 +1,7 @@
 require("@nomiclabs/hardhat-waffle");
 require('solidity-coverage')
+require('dotenv').config()
 const ContributeArtifact = require('./artifacts/contracts/Contribute.sol/Contribute.json')
-
 
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
   const accounts = await hre.ethers.getSigners();
@@ -56,7 +56,7 @@ task("donators", "Donators list", async (taskArgs, hre) => {
       signer
     )
 
-    const donators = await contributeContract.getDonators()
+    let donators = await contributeContract.getDonators()
 
     for (const donator of donators) {
       console.log(donator)
@@ -76,7 +76,7 @@ task("donators", "Donators list", async (taskArgs, hre) => {
       signer
     )
 
-    const totalAmount = await contributeContract.getAmount(taskArgs.address)
+    let totalAmount = await contributeContract.getAmount(taskArgs.address)
 
     console.log(totalAmount)
 
@@ -85,8 +85,23 @@ task("donators", "Donators list", async (taskArgs, hre) => {
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
+
+
+
 module.exports = {
   solidity: "0.8.4",
+  networks: {
+    localhost: {
+      url: "http://127.0.0.1:8545"
+    },
+    hardhat: {
+      // See its defaults
+    },
+    rinkeby: {
+      url: process.env.URL,
+      accounts: [process.env.API_KEY]
+    }
+  }
 };
 
 
