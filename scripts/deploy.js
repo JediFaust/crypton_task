@@ -10,7 +10,7 @@ async function main() {
 
   await contribute.deployed();
 
-  console.log("Contribute deployed to:", contribute.address);
+  console.log("Contribute deployed to:", contribute.address); // Save this address to .env file
 }
 
 main()

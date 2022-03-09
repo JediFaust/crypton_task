@@ -1,7 +1,10 @@
 require("@nomiclabs/hardhat-waffle");
 require('solidity-coverage')
 require('dotenv').config()
-const ContributeArtifact = require('./artifacts/contracts/Contribute.sol/Contribute.json')
+require('./tasks/donate.js')
+require('./tasks/withdraw.js')
+require('./tasks/total_amount.js')
+require('./tasks/donators.js')
 
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
   const accounts = await hre.ethers.getSigners();
@@ -10,77 +13,6 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
     console.log(account.address);
   }
 });
-
-task("donate", "Send donation")
-  .addParam("amount", "Amount of tokens")
-  .setAction(async (taskArgs) => {
-    const [signer] = await hre.ethers.getSigners()
-    const contributeAddr = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
-
-    const contributeContract = new hre.ethers.Contract(
-      contributeAddr,
-      ContributeArtifact.abi,
-      signer
-    )
-
-    const result = await contributeContract.donate(taskArgs.amount, { value: taskArgs.amount })
-    
-    console.log(result)
-  });
-
-task("withdraw", "Send donation")
-  .addParam("address", "Address to withdraw")
-  .addParam("amount", "Amount of tokens to withdraw")
-  .setAction(async (taskArgs) => {
-    const [signer] = await hre.ethers.getSigners()
-    const contributeAddr = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
-
-    const contributeContract = new hre.ethers.Contract(
-      contributeAddr,
-      ContributeArtifact.abi,
-      signer
-    )
-
-    const result = await contributeContract.withdraw(taskArgs.address, taskArgs.amount)
-    
-    console.log(result)
-  });
-
-task("donators", "Donators list", async (taskArgs, hre) => {
-    const [signer] = await hre.ethers.getSigners()
-    const contributeAddr = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
-
-    const contributeContract = new hre.ethers.Contract(
-      contributeAddr,
-      ContributeArtifact.abi,
-      signer
-    )
-
-    let donators = await contributeContrac.getDonators()
-
-    for (const donator of donators) {
-      console.log(donator)
-    }
-
-  });
-
-  task("total-amount", "Amount of donator")
-  .addParam("address", "Address to check total amount")
-  .setAction(async (taskArgs, hre) => {
-    const [signer] = await hre.ethers.getSigners()
-    const contributeAddr = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
-
-    const contributeContract = new hre.ethers.Contract(
-      contributeAddr,
-      ContributeArtifact.abi,
-      signer
-    )
-
-    let totalAmount = await contributeContract.getAmount(taskArgs.address)
-
-    console.log(totalAmount)
-
-  });
 
 /**
  * @type import('hardhat/config').HardhatUserConfig
@@ -95,12 +27,12 @@ module.exports = {
       url: "http://127.0.0.1:8545"
     },
     hardhat: {
-      // See its defaults
+      chainId: 1337
     },
-    // rinkeby: {
-    //   url: process.env.URL,
-    //   accounts: [process.env.API_KEY]
-    // }
+    rinkeby: {
+      url: process.env.URL,
+      accounts: [process.env.PRIVATE_KEY]
+    }
   }
 };
 

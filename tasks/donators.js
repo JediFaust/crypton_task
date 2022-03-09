@@ -1,9 +1,7 @@
 const ContributeArtifact = require('../artifacts/contracts/Contribute.sol/Contribute.json')
 require('dotenv').config()
 
-task("donate", "Send donation")
-  .addParam("amount", "Amount of tokens")
-  .setAction(async (taskArgs) => {
+task("donators", "Donators list", async (taskArgs, hre) => {
     const [signer] = await hre.ethers.getSigners()
     const contributeAddr = process.env.CONTRACT_ADDRESS
 
@@ -13,7 +11,10 @@ task("donate", "Send donation")
       signer
     )
 
-    const result = await contributeContract.donate(taskArgs.amount, { value: taskArgs.amount })
-    
-    console.log(result)
+    let donators = await contributeContract.getDonators()
+
+    for (const donator of donators) {
+      console.log(donator)
+    }
+
   });
