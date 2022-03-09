@@ -38,6 +38,6 @@ npx hardhat coverage --testfiles "test/*.js"
 ```
 It was amazing experience to write and deploy my first smart contract
 At first I was developing in Remix IDE and tested all features manually there,and they worked.
-But I cannot test on my local space with tasks, and couldnt figure out why, googling and asking for help on discord makes no sense
+But I cannot test on my local space with some tasks, and couldnt figure out why, googling and asking for help on discord makes no sense
 It's little bit strange because same functionality working on unit testing perfectly
 ```
