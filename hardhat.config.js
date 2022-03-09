@@ -23,7 +23,7 @@ task("donate", "Send donation")
       signer
     )
 
-    const result = await contributeContract.donate(taskArgs.amount)
+    const result = await contributeContract.donate(taskArgs.amount, { value: taskArgs.amount })
     
     console.log(result)
   });
@@ -56,7 +56,7 @@ task("donators", "Donators list", async (taskArgs, hre) => {
       signer
     )
 
-    let donators = await contributeContract.getDonators()
+    let donators = await contributeContrac.getDonators()
 
     for (const donator of donators) {
       console.log(donator)
@@ -97,10 +97,10 @@ module.exports = {
     hardhat: {
       // See its defaults
     },
-    rinkeby: {
-      url: process.env.URL,
-      accounts: [process.env.API_KEY]
-    }
+    // rinkeby: {
+    //   url: process.env.URL,
+    //   accounts: [process.env.API_KEY]
+    // }
   }
 };
 

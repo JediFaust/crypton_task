@@ -26,8 +26,8 @@ describe("Contribute", function() {
     })
 
     it("should have 1 exact donator with amount of 0", async function() {
-        let donation = 0
-        await contribute.donate(donation)
+        let donation = 50
+        await contribute.donate(donation, { value: donation })
         let donators = await contribute.getDonators()
         expect(await contribute.getAmount(donators[0])).to.eq(donation)
     })
@@ -36,11 +36,11 @@ describe("Contribute", function() {
         expect(await contribute.getAmount(acc2.address)).to.eq(0)
     })
 
-    it("should have 3 donators with amounts of 0", async function() {
-        let donation = 0
-        await contribute.donate(donation)
-        await contribute.connect(acc1).donate(donation)
-        await contribute.connect(acc2).donate(donation)
+    it("should have 3 donators with amounts of 50", async function() {
+        let donation = 50
+        await contribute.donate(donation, { value: donation })
+        await contribute.connect(acc1).donate(donation, { value: donation })
+        await contribute.connect(acc2).donate(donation, { value: donation })
         let donators = await contribute.getDonators()
 
         for (let i = 0; i < donators.length; i++) {
@@ -51,36 +51,36 @@ describe("Contribute", function() {
     })
 
     it("should add unique donator to the list", async function() {
-        let donation = 0
-        await contribute.donate(donation)
+        let donation = 50
+        await contribute.donate(donation, { value: donation })
         let donators = await contribute.getDonators()
 
         expect(donators.length).to.eq(1)
 
-        await contribute.connect(acc1).donate(donation)
+        await contribute.connect(acc1).donate(donation, { value: donation })
         donators = await contribute.getDonators()
 
         expect(donators.length).to.eq(2)
     })
 
-    it("should not add non-unique donator to the address and just increment total amount", async function() {
-        let donation = 0
-        await contribute.connect(acc1).donate(donation)
+    it("should not add non-unique donator to the address and just increment total amount by 50", async function() {
+        let donation = 50
+        await contribute.connect(acc1).donate(donation, { value: donation })
         let donators = await contribute.getDonators()
 
         expect(donators.length).to.eq(1)
         expect(await contribute.getAmount(acc1.address)).to.eq(donation)
 
 
-        await contribute.connect(acc1).donate(donation)
+        await contribute.connect(acc1).donate(donation, { value: donation })
         donators = await contribute.getDonators()
         
         expect(donators.length).to.eq(1)
-        expect(await contribute.getAmount(acc1.address)).to.eq(donation)
+        expect(await contribute.getAmount(acc1.address)).to.eq(donation * 2)
     })
 
     it("should revert donation when have no enough token", async function() {
-        await expect(contribute.donate(100))
+        await expect(contribute.donate(100), { value: 50 })
   .to.be.revertedWith('Not enough token provided.');
     })
 
@@ -95,18 +95,14 @@ describe("Contribute", function() {
     })
 
     it("should change balance when withdraw", async function() {
-        let amount = 0
-        let tx = await contribute.withdraw(acc1.address, amount)
+        let amount = 10
+        await contribute.connect(acc1).donate(50, { value: 50 })
+        let tx = await contribute.withdraw(acc2.address, amount)
         await expect(() => tx)
-            .to.changeEtherBalances([contribute, acc1], [-amount, amount])
+            .to.changeEtherBalances([contribute, acc2], [-amount, amount])
 
         await tx.wait()
     })
-
-    // I couldnt figure out how to set balance of accounts, because they have 0 at starting
-    // so I just tested success withdraw and donate with amounts of 0
-    // and tested other features with bigger amounts manually on Remix IDE
-
 
     
 })
